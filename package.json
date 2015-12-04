@@ -1,0 +1,34 @@
+{
+  "name": "fi-khipu",
+  "title": "Fi Khipu",
+  "version": "1.0.5",
+  "description": "Khipu payments convenience layer for Node.js applications",
+  "main": "index.js",
+  "apiVersion": "2.5.0",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --reporter list test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finaldevstudio/fi-khipu.git"
+  },
+  "keywords": [
+    "fi-seed",
+    "khipu",
+    "api"
+  ],
+  "author": "Santiago G. Marín <santiago@finaldevstudio.com> (http://finaldevstudio.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/finaldevstudio/fi-khipu/issues"
+  },
+  "homepage": "https://github.com/finaldevstudio/fi-khipu#readme",
+  "dependencies": {
+    "is_js": "^0.7.4",
+    "request": "^2.67.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  }
+}
