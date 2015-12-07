@@ -1,3 +1,6 @@
+# TEsting sensitive data
+test/config.json
+
 # Logs
 logs
 *.log
