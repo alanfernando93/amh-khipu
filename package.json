@@ -25,6 +25,7 @@
   "homepage": "https://github.com/finaldevstudio/fi-khipu#readme",
   "dependencies": {
     "is_js": "^0.7.4",
+    "qs": "^6.0.1",
     "request": "^2.67.0"
   },
   "devDependencies": {
