@@ -47,7 +47,12 @@ describe('Fi Khipu', function () {
     it('should retrieve banks list', function (done) {
       var banks = new khipu.clients.Banks(client);
 
-      banks.list(function (banks) {
+      banks.list(function (err, banks) {
+        if (err) {
+          logToFile('Banks error', err);
+          return done(err);
+        }
+
         if (Array.isArray(banks) && banks.length) {
           logToFile('Banks', banks);
           return done();
@@ -68,7 +73,12 @@ describe('Fi Khipu', function () {
         /* Khipu only accepts CLP for now */
         // currency: khipu.currencies.CLP,
         amount: 100
-      }, function (payment) {
+      }, function (err, payment) {
+        if (err) {
+          logToFile('Create payment error', err);
+          return done(err);
+        }
+
         if (payment) {
           logToFile('Created payment', payment);
 
@@ -84,7 +94,12 @@ describe('Fi Khipu', function () {
     it('should create retrieve a payment by its ID', function (done) {
       var payments = new khipu.clients.Payments(client);
 
-      payments.getById(stored[0].payment_id, function (payment) {
+      payments.getById(stored[0].payment_id, function (err, payment) {
+        if (err) {
+          logToFile('Retrieve payment error', err);
+          return done(err);
+        }
+
         if (payment) {
           logToFile('Retrieved payment by ID', payment);
 
@@ -100,7 +115,12 @@ describe('Fi Khipu', function () {
     it('should retrieve a payment by its notification token', function (done) {
       var payments = new khipu.clients.Payments(client);
 
-      payments.getByNotificationToken(stored[1].notification_token, function (payment) {
+      payments.getByNotificationToken(stored[1].notification_token, function (err, payment) {
+        if (err) {
+          logToFile('Retrieve payment by notification token error', err);
+          return done(err);
+        }
+
         if (payment) {
           logToFile('Retrieved payment by notification token', payment);
 
@@ -108,6 +128,48 @@ describe('Fi Khipu', function () {
         }
 
         done(new Error("No payment obtained!"));
+      });
+    });
+
+    it('should delete a payment by its ID', function (done) {
+      var payments = new khipu.clients.Payments(client);
+
+      payments.delete(stored[0].payment_id, function (err, payment) {
+        if (err) {
+          logToFile('Delete payment by ID error', err);
+          return done(err);
+        }
+
+        if (payment) {
+          logToFile('Deleted payment by ID', payment);
+
+          stored.push(payment);
+
+          return done();
+        }
+
+        done(new Error("No payment deleted!"));
+      });
+    });
+
+    it('should refund a payment by its ID', function (done) {
+      var payments = new khipu.clients.Payments(client);
+
+      payments.refund(stored[1].payment_id, function (err, payment) {
+        if (err) {
+          logToFile('Refund payment by ID error', err);
+          return done(err);
+        }
+
+        if (payment) {
+          logToFile('Refunded payment by ID', payment);
+
+          stored.push(payment);
+
+          return done();
+        }
+
+        done(new Error("No payment refunded!"));
       });
     });
 
