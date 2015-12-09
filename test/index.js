@@ -5,8 +5,6 @@ var expect = require('chai').expect;
 var khipu = require('../');
 var fs = require('fs');
 
-var config, client;
-
 var logfile = './test/tests.log';
 var stored = [];
 
@@ -27,14 +25,12 @@ function logToFile(title, data) {
 describe('Fi Khipu', function () {
 
   before(function () {
-    fs.unlinkSync(logfile);
+    fs.unlink(logfile, function () {
+      var json = require('./config.json');
 
-    var json = require('./config.json');
-
-    config = new khipu.Configuration(json.receiverId, json.secret);
-    client = new khipu.Client(config);
-
-    config.sslVerification = false;
+      khipu.configure(json.receiverId, json.secret);
+      khipu.config.sslVerification = false;
+    });
   });
 
   describe('object', function () {
@@ -45,12 +41,10 @@ describe('Fi Khipu', function () {
 
   describe('banks', function () {
     it('should retrieve banks list', function (done) {
-      var banks = new khipu.clients.Banks(client);
-
-      banks.list(function (err, banks) {
+      khipu.listBanks(function (err, banks) {
         if (err) {
           logToFile('Banks error', err);
-          return done(err);
+          return done(new Error(err.notice));
         }
 
         if (Array.isArray(banks) && banks.length) {
@@ -66,9 +60,7 @@ describe('Fi Khipu', function () {
   describe('payments', function () {
 
     it('should create a payment', function (done) {
-      var payments = new khipu.clients.Payments(client);
-
-      payments.create({
+      khipu.createPayment({
         subject: 'Test payment from fi-khipu at ' + new Date(),
         /* Khipu only accepts CLP for now */
         // currency: khipu.currencies.CLP,
@@ -76,7 +68,7 @@ describe('Fi Khipu', function () {
       }, function (err, payment) {
         if (err) {
           logToFile('Create payment error', err);
-          return done(err);
+          return done(new Error(err.notice));
         }
 
         if (payment) {
@@ -92,12 +84,10 @@ describe('Fi Khipu', function () {
     });
 
     it('should create retrieve a payment by its ID', function (done) {
-      var payments = new khipu.clients.Payments(client);
-
-      payments.getById(stored[0].payment_id, function (err, payment) {
+      khipu.getPaymentById(stored[0].payment_id, function (err, payment) {
         if (err) {
           logToFile('Retrieve payment error', err);
-          return done(err);
+          return done(new Error(err.notice));
         }
 
         if (payment) {
@@ -113,12 +103,10 @@ describe('Fi Khipu', function () {
     });
 
     it('should retrieve a payment by its notification token', function (done) {
-      var payments = new khipu.clients.Payments(client);
-
-      payments.getByNotificationToken(stored[1].notification_token, function (err, payment) {
+      khipu.getPaymentByNotificationToken(stored[1].notification_token, function (err, payment) {
         if (err) {
           logToFile('Retrieve payment by notification token error', err);
-          return done(err);
+          return done(new Error(err.notice));
         }
 
         if (payment) {
@@ -132,12 +120,10 @@ describe('Fi Khipu', function () {
     });
 
     it('should delete a payment by its ID', function (done) {
-      var payments = new khipu.clients.Payments(client);
-
-      payments.delete(stored[0].payment_id, function (err, payment) {
+      khipu.deletePayment(stored[0].payment_id, function (err, payment) {
         if (err) {
           logToFile('Delete payment by ID error', err);
-          return done(err);
+          return done(new Error(err.notice));
         }
 
         if (payment) {
@@ -153,12 +139,10 @@ describe('Fi Khipu', function () {
     });
 
     it('should refund a payment by its ID', function (done) {
-      var payments = new khipu.clients.Payments(client);
-
-      payments.refund(stored[1].payment_id, function (err, payment) {
+      khipu.refundPayment(stored[1].payment_id, function (err, payment) {
         if (err) {
           logToFile('Refund payment by ID error', err);
-          return done(err);
+          return done(new Error(err.notice));
         }
 
         if (payment) {
@@ -173,6 +157,10 @@ describe('Fi Khipu', function () {
       });
     });
 
+  });
+
+  after(function () {
+    console.log('\nSee "test/tests.log" for more details.\n');
   });
 
 });
