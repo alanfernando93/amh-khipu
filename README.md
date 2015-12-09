@@ -1,2 +1,2 @@
 # Fi Khipu
-Khipu payments convenience layer for Node.js applications.
+Khipu payments API client for Node.js applications.
