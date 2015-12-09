@@ -1,7 +1,7 @@
 {
   "name": "fi-khipu",
   "title": "Fi Khipu",
-  "version": "1.0.5",
+  "version": "0.1.0",
   "description": "Khipu payments convenience layer for Node.js applications",
   "main": "index.js",
   "apiVersion": "2.5.0",
