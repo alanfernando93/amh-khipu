@@ -1,6 +1,6 @@
 {
-  "name": "fi-khipu",
-  "title": "Fi Khipu",
+  "name": "amh-khipu",
+  "title": "AMH Khipu",
   "version": "0.1.0",
   "description": "Khipu payments convenience layer for Node.js applications",
   "main": "index.js",
@@ -10,19 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/finaldevstudio/fi-khipu.git"
+    "url": "git+https://github.com/alanfernando93/amh-khipu.git"
   },
   "keywords": [
     "fi-seed",
     "khipu",
-    "api"
+    "api",
+    "khipu-node"
   ],
-  "author": "Santiago G. Marín <santiago@finaldevstudio.com> (http://finaldevstudio.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/finaldevstudio/fi-khipu/issues"
+    "url": "https://github.com/alanfernando93/amh-khipu/issues"
   },
-  "homepage": "https://github.com/finaldevstudio/fi-khipu#readme",
+  "homepage": "https://github.com/alanfernando93/amh-khipu#readme",
   "dependencies": {
     "is_js": "^0.7.4",
     "qs": "^6.0.1",
